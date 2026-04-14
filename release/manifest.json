@@ -1,0 +1,5 @@
+{
+  "version": "1.0.0",
+  "downloadUrl": "https://github.com/tomas125/Sistema_Gestion_Turnos_Medicos/releases/latest/download/MedicalTracker_Setup_1.0.0.exe",
+  "releaseNotes": "Misma versión que la instalada: el sistema comprobará actualizaciones cuando publiques una versión nueva en GitHub Releases y actualices este manifiesto."
+}

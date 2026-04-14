@@ -17,8 +17,6 @@ partial class frmPaciente
     private FlowLayoutPanel panelBotones = null!;
     private Button btnGuardar = null!;
     private Button btnCancelar = null!;
-    private Panel panelMarca = null!;
-    private PictureBox picLogoPaciente = null!;
 
     protected override void Dispose(bool disposing)
     {
@@ -46,13 +44,9 @@ partial class frmPaciente
         panelBotones = new FlowLayoutPanel();
         btnGuardar = new Button();
         btnCancelar = new Button();
-        panelMarca = new Panel();
-        picLogoPaciente = new PictureBox();
         grpDatosPaciente.SuspendLayout();
         grpEstudios.SuspendLayout();
         panelBotones.SuspendLayout();
-        panelMarca.SuspendLayout();
-        ((System.ComponentModel.ISupportInitialize)picLogoPaciente).BeginInit();
         SuspendLayout();
         //
         // grpDatosPaciente
@@ -151,28 +145,13 @@ partial class frmPaciente
         btnCancelar.AutoSize = true;
         btnCancelar.Click += btnCancelar_Click;
         //
-        // panelMarca
-        //
-        panelMarca.Controls.Add(picLogoPaciente);
-        panelMarca.Dock = DockStyle.Top;
-        panelMarca.Height = 78;
-        panelMarca.Padding = new Padding(10, 8, 10, 6);
-        //
-        // picLogoPaciente
-        //
-        picLogoPaciente.Dock = DockStyle.Left;
-        picLogoPaciente.Size = new Size(120, 64);
-        picLogoPaciente.SizeMode = PictureBoxSizeMode.Zoom;
-        picLogoPaciente.TabStop = false;
-        //
         // frmPaciente
         //
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(884, 601);
-        // Dock: primero Fill, luego Top de arriba hacia abajo (logo, datos), barra inferior al final.
+        // Dock: Fill estudios, datos arriba, barra inferior.
         Controls.Add(grpEstudios);
-        Controls.Add(panelMarca);
         Controls.Add(grpDatosPaciente);
         Controls.Add(panelBotones);
         MinimumSize = new Size(700, 500);
@@ -183,8 +162,6 @@ partial class frmPaciente
         grpEstudios.ResumeLayout(false);
         panelBotones.ResumeLayout(false);
         panelBotones.PerformLayout();
-        panelMarca.ResumeLayout(false);
-        ((System.ComponentModel.ISupportInitialize)picLogoPaciente).EndInit();
         ResumeLayout(false);
         PerformLayout();
     }

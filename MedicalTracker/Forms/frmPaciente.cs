@@ -36,7 +36,6 @@ public partial class frmPaciente : Form
         _pacienteIdExistente = pacienteId;
         InitializeComponent();
         Branding.AplicarIcono(this);
-        picLogoPaciente.Image = Branding.CargarLogo();
         ConstruirFilasEstudios();
         WireDirtyHandlers();
         Load += frmPaciente_Load;
