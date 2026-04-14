@@ -18,7 +18,7 @@ public class Estudio
     /// <summary>Pendiente, En curso, Realizado o Cancelado.</summary>
     public string Estado { get; set; } = EstudioCatalogo.EstadoPendiente;
 
-    /// <summary>0 = No, 1 = Sí.</summary>
+    /// <summary>Derivado del estado al guardar (1 si <see cref="EstudioCatalogo.EstadoRealizado"/>). Persistido por compatibilidad.</summary>
     public int SeRealizo { get; set; }
 
     public string? Observaciones { get; set; }

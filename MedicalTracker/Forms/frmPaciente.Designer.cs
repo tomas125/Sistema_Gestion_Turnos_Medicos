@@ -116,7 +116,7 @@ partial class frmPaciente
         grpEstudios.Controls.Add(panelEstudios);
         grpEstudios.Dock = DockStyle.Fill;
         grpEstudios.MinimumSize = new Size(400, 200);
-        grpEstudios.Text = "Estudios prequirúrgicos (¿Se realizó?) y turno de cirugía";
+        grpEstudios.Text = "Estudios prequirúrgicos y turno de cirugía";
         //
         // panelEstudios
         //

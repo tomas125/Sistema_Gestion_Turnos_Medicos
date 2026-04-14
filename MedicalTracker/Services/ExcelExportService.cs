@@ -58,7 +58,7 @@ public class ExcelExportService
         string[] encabezados =
         {
             "Paciente", "Patología", "Fecha ingreso", "Obs. paciente",
-            "Tipo estudio", "Fecha turno", "Estado", "¿Realizado?", "Obs. estudio"
+            "Tipo estudio", "Fecha turno", "Estado", "Obs. estudio"
         };
 
         for (int c = 0; c < encabezados.Length; c++)
@@ -109,7 +109,6 @@ public class ExcelExportService
             hoja.Cell(fila, c++).Value = "";
             hoja.Cell(fila, c++).Value = "";
             hoja.Cell(fila, c++).Value = "";
-            hoja.Cell(fila, c++).Value = "";
         }
         else
         {
@@ -117,7 +116,6 @@ public class ExcelExportService
             hoja.Cell(fila, c++).Value = e.FechaTurno ?? "";
             var celEstado = hoja.Cell(fila, c++);
             celEstado.Value = e.Estado;
-            hoja.Cell(fila, c++).Value = e.SeRealizo == 1 ? "Sí" : "No";
             hoja.Cell(fila, c++).Value = e.Observaciones ?? "";
 
             AplicarColorFila(hoja, fila, e);
@@ -128,12 +126,12 @@ public class ExcelExportService
 
     private static void AplicarColorFila(IXLWorksheet hoja, int fila, Estudio e)
     {
-        var rango = hoja.Range(fila, 1, fila, 9);
+        var rango = hoja.Range(fila, 1, fila, 8);
         if (EsPendienteNoFinalizado(e))
         {
             rango.Style.Fill.BackgroundColor = XLColor.LightPink;
         }
-        else if (e.SeRealizo == 1 || e.Estado == EstudioCatalogo.EstadoRealizado)
+        else if (e.Estado == EstudioCatalogo.EstadoRealizado)
         {
             rango.Style.Fill.BackgroundColor = XLColor.LightGreen;
         }
@@ -141,7 +139,6 @@ public class ExcelExportService
 
     private static bool EsPendienteNoFinalizado(Estudio e)
     {
-        if (e.SeRealizo == 1) return false;
         if (e.Estado == EstudioCatalogo.EstadoRealizado || e.Estado == EstudioCatalogo.EstadoCancelado)
             return false;
         return e.Estado == EstudioCatalogo.EstadoPendiente || e.Estado == EstudioCatalogo.EstadoEnCurso;
@@ -161,7 +158,7 @@ public class ExcelExportService
         hoja.Range(1, 1, 4, 1).Style.Font.Bold = true;
 
         int fila = 6;
-        string[] enc = { "Tipo", "Fecha turno", "Estado", "¿Realizado?", "Observaciones" };
+        string[] enc = { "Tipo", "Fecha turno", "Estado", "Observaciones" };
         for (int i = 0; i < enc.Length; i++)
         {
             var c = hoja.Cell(fila, i + 1);
@@ -182,13 +179,12 @@ public class ExcelExportService
                 hoja.Cell(fila, 1).Value = e.Tipo;
                 hoja.Cell(fila, 2).Value = e.FechaTurno ?? "";
                 hoja.Cell(fila, 3).Value = e.Estado;
-                hoja.Cell(fila, 4).Value = e.SeRealizo == 1 ? "Sí" : "No";
-                hoja.Cell(fila, 5).Value = e.Observaciones ?? "";
+                hoja.Cell(fila, 4).Value = e.Observaciones ?? "";
 
-                var rango = hoja.Range(fila, 1, fila, 5);
+                var rango = hoja.Range(fila, 1, fila, 4);
                 if (EsPendienteNoFinalizado(e))
                     rango.Style.Fill.BackgroundColor = XLColor.LightPink;
-                else if (e.SeRealizo == 1 || e.Estado == EstudioCatalogo.EstadoRealizado)
+                else if (e.Estado == EstudioCatalogo.EstadoRealizado)
                     rango.Style.Fill.BackgroundColor = XLColor.LightGreen;
 
                 fila++;
@@ -198,7 +194,7 @@ public class ExcelExportService
         var ultima = fila - 1;
         if (ultima >= 7)
         {
-            hoja.Range(6, 1, ultima, 5).SetAutoFilter();
+            hoja.Range(6, 1, ultima, 4).SetAutoFilter();
         }
 
         hoja.Columns().AdjustToContents();

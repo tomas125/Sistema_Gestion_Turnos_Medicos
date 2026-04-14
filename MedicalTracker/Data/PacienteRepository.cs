@@ -238,12 +238,12 @@ public class PacienteRepository
             return ("Con turnos vencidos", CategoriaListadoPaciente.Vencido);
 
         var todosRealizados = estudios.All(e =>
-            e.SeRealizo == 1 || e.Estado == EstudioCatalogo.EstadoRealizado);
+            e.Estado == EstudioCatalogo.EstadoRealizado);
         if (todosRealizados)
             return ("Todo realizado", CategoriaListadoPaciente.TodoRealizado);
 
         var todosPendientesPuros = estudios.All(e =>
-            e.Estado == EstudioCatalogo.EstadoPendiente && e.SeRealizo == 0);
+            e.Estado == EstudioCatalogo.EstadoPendiente);
         if (todosPendientesPuros)
             return ("Todo pendiente", CategoriaListadoPaciente.TodoPendiente);
 
@@ -261,10 +261,9 @@ public class PacienteRepository
             var fechaTxt = TryParseFecha(e.FechaTurno, out var fd)
                 ? fd.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
                 : (string.IsNullOrWhiteSpace(e.FechaTurno) ? "sin fecha" : e.FechaTurno!);
-            var real = e.SeRealizo == 1 ? "Sí" : "No";
             var obs = string.IsNullOrWhiteSpace(e.Observaciones) ? "—" : e.Observaciones;
             sb.AppendLine($"• {e.Tipo}");
-            sb.AppendLine($"  Estado: {e.Estado} | Turno: {fechaTxt} | Realizado: {real}");
+            sb.AppendLine($"  Estado: {e.Estado} | Turno: {fechaTxt}");
             sb.AppendLine($"  Obs.: {obs}");
             sb.AppendLine();
         }
@@ -274,7 +273,6 @@ public class PacienteRepository
 
     private static bool EsPendienteActivo(Estudio e)
     {
-        if (e.SeRealizo == 1) return false;
         if (e.Estado == EstudioCatalogo.EstadoRealizado || e.Estado == EstudioCatalogo.EstadoCancelado)
             return false;
         return true;

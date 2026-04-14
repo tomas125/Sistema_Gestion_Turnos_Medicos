@@ -7,7 +7,7 @@ public static class EstudioCatalogo
 {
     /// <summary>
     /// Tipos de estudio según la guía operativa (croquis prequirúrgico).
-    /// Orden: estudios con seguimiento “¿Se realizó?” y al final turno de cirugía.
+    /// Orden: estudios de la guía y al final turno de cirugía.
     /// </summary>
     public static readonly string[] Tipos =
     {

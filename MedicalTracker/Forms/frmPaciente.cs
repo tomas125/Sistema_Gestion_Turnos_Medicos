@@ -87,7 +87,6 @@ public partial class frmPaciente : Form
                     fila.Estado.SelectedItem = est.Estado;
                     if (fila.Estado.SelectedIndex < 0)
                         fila.Estado.SelectedItem = EstudioCatalogo.EstadoPendiente;
-                    fila.Realizado.Checked = est.SeRealizo == 1;
                     fila.Observaciones.Text = est.Observaciones ?? "";
                     if (!string.IsNullOrWhiteSpace(est.FechaTurno) &&
                         DateTime.TryParse(est.FechaTurno, CultureInfo.InvariantCulture, DateTimeStyles.None, out var ft))
@@ -108,7 +107,6 @@ public partial class frmPaciente : Form
                 {
                     fila.Requiere.Checked = false;
                     fila.Estado.SelectedItem = EstudioCatalogo.EstadoPendiente;
-                    fila.Realizado.Checked = false;
                     fila.FechaTurno.Checked = false;
                     fila.Observaciones.Clear();
                 }
@@ -161,7 +159,6 @@ public partial class frmPaciente : Form
             f.Requiere.CheckedChanged += marcar;
             f.FechaTurno.ValueChanged += marcar;
             f.Estado.SelectedIndexChanged += marcar;
-            f.Realizado.CheckedChanged += marcar;
             f.Observaciones.TextChanged += marcar;
         }
     }
@@ -204,7 +201,7 @@ public partial class frmPaciente : Form
                 Tipo = fila.Tipo,
                 FechaTurno = fechaTxt,
                 Estado = estado,
-                SeRealizo = fila.Realizado.Checked ? 1 : 0,
+                SeRealizo = estado == EstudioCatalogo.EstadoRealizado ? 1 : 0,
                 Observaciones = string.IsNullOrWhiteSpace(fila.Observaciones.Text)
                     ? null
                     : fila.Observaciones.Text.Trim()
@@ -259,7 +256,6 @@ public partial class frmPaciente : Form
         public CheckBox Requiere { get; }
         public DateTimePicker FechaTurno { get; }
         public ComboBox Estado { get; }
-        public CheckBox Realizado { get; }
         public TextBox Observaciones { get; }
 
         public int Altura { get; }
@@ -297,17 +293,10 @@ public partial class frmPaciente : Form
             {
                 DropDownStyle = ComboBoxStyle.DropDownList,
                 Location = new Point(330, 48),
-                Width = 140
+                Width = 260
             };
             Estado.Items.AddRange(EstudioCatalogo.Estados.Cast<object>().ToArray());
             Estado.SelectedItem = EstudioCatalogo.EstadoPendiente;
-
-            Realizado = new CheckBox
-            {
-                Text = "¿Se realizó? (Sí / No)",
-                Location = new Point(490, 50),
-                AutoSize = true
-            };
 
             var lblObs = new Label { Text = "Observaciones:", Location = new Point(12, 80), AutoSize = true };
             Observaciones = new TextBox
@@ -322,7 +311,6 @@ public partial class frmPaciente : Form
             borde.Controls.Add(FechaTurno);
             borde.Controls.Add(lblEstado);
             borde.Controls.Add(Estado);
-            borde.Controls.Add(Realizado);
             borde.Controls.Add(lblObs);
             borde.Controls.Add(Observaciones);
 
@@ -338,7 +326,6 @@ public partial class frmPaciente : Form
             var on = Requiere.Checked;
             FechaTurno.Enabled = on;
             Estado.Enabled = on;
-            Realizado.Enabled = on;
             Observaciones.Enabled = on;
         }
     }
