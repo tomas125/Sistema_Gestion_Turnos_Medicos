@@ -38,6 +38,7 @@ if (-not (Test-Path $exe)) {
 $candidates = @(
     Join-Path ${env:ProgramFiles(x86)} "Inno Setup 6\ISCC.exe"
     Join-Path $env:ProgramFiles "Inno Setup 6\ISCC.exe"
+    Join-Path $env:LocalAppData "Programs\Inno Setup 6\ISCC.exe"
 )
 $iscc = $candidates | Where-Object { Test-Path $_ } | Select-Object -First 1
 
