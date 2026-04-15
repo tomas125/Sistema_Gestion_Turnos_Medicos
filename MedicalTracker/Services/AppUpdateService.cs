@@ -288,19 +288,44 @@ public static class AppUpdateService
         var workDir = Path.GetDirectoryName(tempPath) ?? Path.GetTempPath();
         try
         {
+            var currentExe = Environment.ProcessPath;
+            if (string.IsNullOrWhiteSpace(currentExe))
+            {
+                currentExe = Path.Combine(AppContext.BaseDirectory, "MedicalTracker.exe");
+            }
+
+            var installerArgs = new[]
+            {
+                "/VERYSILENT",
+                "/NORESTART",
+                "/SUPPRESSMSGBOXES",
+                "/CLOSEAPPLICATIONS",
+                "/RESTARTAPPLICATIONS",
+                "/SP-",
+                "/CURRENTUSER"
+            };
+
+            // Ejecuta el instalador y, al terminar, relanza la app instalada.
+            // Esto evita depender solo de /RESTARTAPPLICATIONS (que puede no reabrir en todos los escenarios).
+            var helperCommand =
+                $"Start-Process -FilePath '{EscapePsLiteral(tempPath)}' -ArgumentList @({string.Join(", ", installerArgs.Select(a => $"'{EscapePsLiteral(a)}'"))}) -Wait; " +
+                $"Start-Sleep -Seconds 1; " +
+                $"Start-Process -FilePath '{EscapePsLiteral(currentExe)}'";
+
             var psi = new ProcessStartInfo
             {
-                FileName = tempPath,
+                FileName = "powershell.exe",
                 UseShellExecute = false,
-                WorkingDirectory = workDir
+                WorkingDirectory = workDir,
+                CreateNoWindow = true
             };
-            psi.ArgumentList.Add("/VERYSILENT");
-            psi.ArgumentList.Add("/NORESTART");
-            psi.ArgumentList.Add("/SUPPRESSMSGBOXES");
-            psi.ArgumentList.Add("/CLOSEAPPLICATIONS");
-            psi.ArgumentList.Add("/RESTARTAPPLICATIONS");
-            psi.ArgumentList.Add("/SP-");
-            psi.ArgumentList.Add("/CURRENTUSER");
+            psi.ArgumentList.Add("-NoProfile");
+            psi.ArgumentList.Add("-ExecutionPolicy");
+            psi.ArgumentList.Add("Bypass");
+            psi.ArgumentList.Add("-WindowStyle");
+            psi.ArgumentList.Add("Hidden");
+            psi.ArgumentList.Add("-Command");
+            psi.ArgumentList.Add(helperCommand);
 
             using var proc = Process.Start(psi);
             proc?.Dispose();
@@ -434,6 +459,9 @@ public static class AppUpdateService
         var hash = await sha.ComputeHashAsync(fs).ConfigureAwait(false);
         return Convert.ToHexString(hash);
     }
+
+    private static string EscapePsLiteral(string value) =>
+        value.Replace("'", "''", StringComparison.Ordinal);
 
     private sealed class UpdateConfigDto
     {
