@@ -11,10 +11,10 @@
     $env:GH_TOKEN = "ghp_xxxxxxxx"
     .\publish-release.ps1
 
-  Opcional: -Version "1.0.2" si difiere del manifiesto en release/manifest.json
+  Opcional: -Version "1.0.4" si difiere del manifiesto en release/manifest.json
 #>
 param(
-    [string]$Version = "1.0.2",
+    [string]$Version = "1.0.4",
     [string]$Owner = "tomas125",
     [string]$Repo = "Sistema_Gestion_Turnos_Medicos"
 )
