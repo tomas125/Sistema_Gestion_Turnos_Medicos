@@ -83,11 +83,27 @@ public partial class frmPaciente : Form
                         continue;
                     }
 
-                    fila.Requiere.Checked = true;
-                    fila.Estado.SelectedItem = est.Estado;
-                    if (fila.Estado.SelectedIndex < 0)
-                        fila.Estado.SelectedItem = EstudioCatalogo.EstadoPendiente;
-                    fila.Observaciones.Text = est.Observaciones ?? "";
+                    var obs = est.Observaciones ?? "";
+                    var sinRequerimiento = obs.StartsWith(EstudioCatalogo.MarcadorSinRequerimiento, StringComparison.Ordinal);
+                    if (sinRequerimiento)
+                    {
+                        var resto = obs.Length > EstudioCatalogo.MarcadorSinRequerimiento.Length
+                            ? obs[EstudioCatalogo.MarcadorSinRequerimiento.Length..].TrimStart()
+                            : "";
+                        fila.Requiere.Checked = true;
+                        fila.Estado.SelectedItem = EstudioCatalogo.EstadoCancelado;
+                        fila.Observaciones.Text = resto;
+                        fila.Requiere.Checked = false;
+                    }
+                    else
+                    {
+                        fila.Requiere.Checked = true;
+                        fila.Estado.SelectedItem = est.Estado;
+                        if (fila.Estado.SelectedIndex < 0)
+                            fila.Estado.SelectedItem = EstudioCatalogo.EstadoPendiente;
+                        fila.Observaciones.Text = obs;
+                    }
+
                     if (!string.IsNullOrWhiteSpace(est.FechaTurno) &&
                         DateTime.TryParse(est.FechaTurno, CultureInfo.InvariantCulture, DateTimeStyles.None, out var ft))
                     {
@@ -189,7 +205,21 @@ public partial class frmPaciente : Form
         var estudios = new List<Estudio>();
         foreach (var fila in _filasEstudio)
         {
-            if (!fila.Requiere.Checked) continue;
+            if (!fila.Requiere.Checked)
+            {
+                var obsSinReq = string.IsNullOrWhiteSpace(fila.Observaciones.Text)
+                    ? EstudioCatalogo.MarcadorSinRequerimiento
+                    : $"{EstudioCatalogo.MarcadorSinRequerimiento} {fila.Observaciones.Text.Trim()}";
+                estudios.Add(new Estudio
+                {
+                    Tipo = fila.Tipo,
+                    FechaTurno = null,
+                    Estado = EstudioCatalogo.EstadoCancelado,
+                    SeRealizo = 0,
+                    Observaciones = obsSinReq
+                });
+                continue;
+            }
 
             var estado = fila.Estado.SelectedItem as string ?? EstudioCatalogo.EstadoPendiente;
             var fechaTxt = fila.FechaTurno.Checked

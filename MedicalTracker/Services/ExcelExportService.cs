@@ -116,7 +116,7 @@ public class ExcelExportService
             hoja.Cell(fila, c++).Value = e.FechaTurno ?? "";
             var celEstado = hoja.Cell(fila, c++);
             celEstado.Value = e.Estado;
-            hoja.Cell(fila, c++).Value = e.Observaciones ?? "";
+            hoja.Cell(fila, c++).Value = EstudioCatalogo.FormatearObservacionesParaMostrar(e.Observaciones);
 
             AplicarColorFila(hoja, fila, e);
         }
@@ -179,7 +179,7 @@ public class ExcelExportService
                 hoja.Cell(fila, 1).Value = e.Tipo;
                 hoja.Cell(fila, 2).Value = e.FechaTurno ?? "";
                 hoja.Cell(fila, 3).Value = e.Estado;
-                hoja.Cell(fila, 4).Value = e.Observaciones ?? "";
+                hoja.Cell(fila, 4).Value = EstudioCatalogo.FormatearObservacionesParaMostrar(e.Observaciones);
 
                 var rango = hoja.Range(fila, 1, fila, 4);
                 if (EsPendienteNoFinalizado(e))

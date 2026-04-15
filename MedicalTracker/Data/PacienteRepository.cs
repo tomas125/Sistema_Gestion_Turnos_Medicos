@@ -261,7 +261,7 @@ public class PacienteRepository
             var fechaTxt = TryParseFecha(e.FechaTurno, out var fd)
                 ? fd.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
                 : (string.IsNullOrWhiteSpace(e.FechaTurno) ? "sin fecha" : e.FechaTurno!);
-            var obs = string.IsNullOrWhiteSpace(e.Observaciones) ? "—" : e.Observaciones;
+            var obs = EstudioCatalogo.FormatearObservacionesParaMostrar(e.Observaciones);
             sb.AppendLine($"• {e.Tipo}");
             sb.AppendLine($"  Estado: {e.Estado} | Turno: {fechaTxt}");
             sb.AppendLine($"  Obs.: {obs}");

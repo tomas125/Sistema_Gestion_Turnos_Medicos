@@ -31,4 +31,22 @@ public static class EstudioCatalogo
     public const string EstadoEnCurso = "En curso";
     public const string EstadoRealizado = "Realizado";
     public const string EstadoCancelado = "Cancelado";
+
+    /// <summary>Prefijo en observaciones cuando el estudio se guarda sin marcar «Requiere» (queda en historial como cancelado/no aplica).</summary>
+    public const string MarcadorSinRequerimiento = "[Sin requerimiento]";
+
+    /// <summary>Texto para listados/exportación (oculta el marcador interno).</summary>
+    public static string FormatearObservacionesParaMostrar(string? observaciones)
+    {
+        if (string.IsNullOrWhiteSpace(observaciones)) return "—";
+        if (observaciones.StartsWith(MarcadorSinRequerimiento, StringComparison.Ordinal))
+        {
+            var resto = observaciones.Length > MarcadorSinRequerimiento.Length
+                ? observaciones[MarcadorSinRequerimiento.Length..].TrimStart()
+                : "";
+            return string.IsNullOrEmpty(resto) ? "No requerido" : $"No requerido: {resto}";
+        }
+
+        return observaciones;
+    }
 }
