@@ -54,7 +54,7 @@ $headers = @{
 }
 
 function Invoke-GitHub {
-    param([string]$Method, [string]$Uri, [string]$Body = $null, [string]$ContentType = "application/json")
+    param([string]$Method, [string]$Uri, [object]$Body = $null, [string]$ContentType = "application/json")
     $p = @{
         Uri             = $Uri
         Headers         = $headers
