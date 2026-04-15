@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -16,7 +17,6 @@ public static class AppUpdateService
     public const string ProductUpdateName = "SeguimientoTurnosMedicos";
 
     private const string DialogTitle = "Actualizar sistema";
-    private const string DownloadErrorTitle = "Error al descargar";
     private const string ConfigFileName = "update-config.json";
     private static readonly TimeSpan HttpTimeout = TimeSpan.FromMinutes(15);
     private const int DownloadBufferBytes = 80 * 1024;
@@ -335,6 +335,16 @@ public static class AppUpdateService
         using var req = new HttpRequestMessage(HttpMethod.Get, downloadUri);
         using var resp = await http.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct)
             .ConfigureAwait(false);
+        if (resp.StatusCode == HttpStatusCode.NotFound)
+        {
+            throw new HttpRequestException(
+                "No se encontró el instalador en internet (404). " +
+                "Hace falta publicar en GitHub el archivo del instalador como adjunto de un Release " +
+                "(nombre exacto, p. ej. MedicalTracker_Setup_1.0.2.exe) y que coincida con «downloadUrl» en release/manifest.json del repositorio.",
+                inner: null,
+                statusCode: HttpStatusCode.NotFound);
+        }
+
         resp.EnsureSuccessStatusCode();
 
         long? total = null;
