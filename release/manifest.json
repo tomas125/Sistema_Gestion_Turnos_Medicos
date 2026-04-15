@@ -1,5 +1,5 @@
 {
-  "version": "1.0.2",
-  "downloadUrl": "https://github.com/tomas125/Sistema_Gestion_Turnos_Medicos/releases/latest/download/MedicalTracker_Setup_1.0.2.exe",
-  "releaseNotes": "Quita el campo duplicado «¿Se realizó?»; el estado del estudio queda solo en la lista Estado. Mejoras menores de interfaz."
+  "version": "1.0.3",
+  "downloadUrl": "https://github.com/tomas125/Sistema_Gestion_Turnos_Medicos/releases/latest/download/MedicalTracker_Setup_1.0.3.exe",
+  "releaseNotes": "Historial: al desmarcar «Requiere este estudio» el estudio queda guardado como cancelado/no requerido. Mensaje claro si falla la descarga (404). Script publish-release.ps1 para publicar el .exe en GitHub."
 }
