@@ -1,5 +1,5 @@
 {
-  "version": "1.0.4",
-  "downloadUrl": "https://github.com/tomas125/Sistema_Gestion_Turnos_Medicos/releases/latest/download/MedicalTracker_Setup_1.0.4.exe",
-  "releaseNotes": "Bump mínimo de versión 1.0.4 para validar actualización remota del cliente."
+  "version": "1.0.5",
+  "downloadUrl": "https://github.com/tomas125/Sistema_Gestion_Turnos_Medicos/releases/latest/download/MedicalTracker_Setup_1.0.5.exe",
+  "releaseNotes": "Mejoras: DNI y fecha de nacimiento en paciente, doble click en listado para editar, versión visible en barra inferior y ajustes en actualización/requerimiento de estudios."
 }

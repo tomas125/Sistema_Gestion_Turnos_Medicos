@@ -6,6 +6,10 @@ partial class frmPaciente
     private GroupBox grpDatosPaciente = null!;
     private Label lblNombre = null!;
     private TextBox txtNombre = null!;
+    private Label lblNumeroDni = null!;
+    private TextBox txtNumeroDni = null!;
+    private Label lblFechaNacimiento = null!;
+    private DateTimePicker dtpFechaNacimiento = null!;
     private Label lblPatologia = null!;
     private TextBox txtPatologia = null!;
     private Label lblFechaIngreso = null!;
@@ -33,6 +37,10 @@ partial class frmPaciente
         grpDatosPaciente = new GroupBox();
         lblNombre = new Label();
         txtNombre = new TextBox();
+        lblNumeroDni = new Label();
+        txtNumeroDni = new TextBox();
+        lblFechaNacimiento = new Label();
+        dtpFechaNacimiento = new DateTimePicker();
         lblPatologia = new Label();
         txtPatologia = new TextBox();
         lblFechaIngreso = new Label();
@@ -53,6 +61,10 @@ partial class frmPaciente
         //
         grpDatosPaciente.Controls.Add(lblNombre);
         grpDatosPaciente.Controls.Add(txtNombre);
+        grpDatosPaciente.Controls.Add(lblNumeroDni);
+        grpDatosPaciente.Controls.Add(txtNumeroDni);
+        grpDatosPaciente.Controls.Add(lblFechaNacimiento);
+        grpDatosPaciente.Controls.Add(dtpFechaNacimiento);
         grpDatosPaciente.Controls.Add(lblPatologia);
         grpDatosPaciente.Controls.Add(txtPatologia);
         grpDatosPaciente.Controls.Add(lblFechaIngreso);
@@ -60,7 +72,7 @@ partial class frmPaciente
         grpDatosPaciente.Controls.Add(lblObsPaciente);
         grpDatosPaciente.Controls.Add(txtObservacionesPaciente);
         grpDatosPaciente.Dock = DockStyle.Top;
-        grpDatosPaciente.Size = new Size(860, 200);
+        grpDatosPaciente.Size = new Size(860, 264);
         grpDatosPaciente.Text = "Datos del paciente";
         //
         // lblNombre
@@ -74,42 +86,66 @@ partial class frmPaciente
         txtNombre.Location = new Point(160, 28);
         txtNombre.Size = new Size(680, 23);
         //
+        // lblNumeroDni
+        //
+        lblNumeroDni.AutoSize = true;
+        lblNumeroDni.Location = new Point(16, 64);
+        lblNumeroDni.Text = "Número de DNI:";
+        //
+        // txtNumeroDni
+        //
+        txtNumeroDni.Location = new Point(160, 60);
+        txtNumeroDni.Size = new Size(220, 23);
+        //
+        // lblFechaNacimiento
+        //
+        lblFechaNacimiento.AutoSize = true;
+        lblFechaNacimiento.Location = new Point(400, 64);
+        lblFechaNacimiento.Text = "Fecha de nacimiento:";
+        //
+        // dtpFechaNacimiento
+        //
+        dtpFechaNacimiento.Format = DateTimePickerFormat.Short;
+        dtpFechaNacimiento.Location = new Point(528, 60);
+        dtpFechaNacimiento.ShowCheckBox = true;
+        dtpFechaNacimiento.Checked = false;
+        //
         // lblPatologia
         //
         lblPatologia.AutoSize = true;
-        lblPatologia.Location = new Point(16, 64);
+        lblPatologia.Location = new Point(16, 96);
         lblPatologia.Text = "Patología:";
         //
         // txtPatologia
         //
-        txtPatologia.Location = new Point(160, 60);
+        txtPatologia.Location = new Point(160, 92);
         txtPatologia.Size = new Size(680, 23);
         //
         // lblFechaIngreso
         //
         lblFechaIngreso.AutoSize = true;
-        lblFechaIngreso.Location = new Point(16, 96);
+        lblFechaIngreso.Location = new Point(16, 128);
         lblFechaIngreso.Text = "Fecha de ingreso:";
         //
         // dtpFechaIngreso
         //
         dtpFechaIngreso.Format = DateTimePickerFormat.Short;
-        dtpFechaIngreso.Location = new Point(160, 92);
+        dtpFechaIngreso.Location = new Point(160, 124);
         dtpFechaIngreso.ShowCheckBox = true;
         dtpFechaIngreso.Checked = false;
         //
         // lblObsPaciente
         //
         lblObsPaciente.AutoSize = true;
-        lblObsPaciente.Location = new Point(16, 128);
+        lblObsPaciente.Location = new Point(16, 160);
         lblObsPaciente.Text = "Observaciones:";
         //
         // txtObservacionesPaciente
         //
-        txtObservacionesPaciente.Location = new Point(160, 124);
+        txtObservacionesPaciente.Location = new Point(160, 156);
         txtObservacionesPaciente.Multiline = true;
         txtObservacionesPaciente.ScrollBars = ScrollBars.Vertical;
-        txtObservacionesPaciente.Size = new Size(680, 64);
+        txtObservacionesPaciente.Size = new Size(680, 92);
         //
         // grpEstudios
         //

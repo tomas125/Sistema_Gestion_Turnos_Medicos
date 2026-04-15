@@ -268,7 +268,7 @@ public static class AppUpdateService
 
         var instalar = MessageBox.Show(owner,
             "El instalador se descargó correctamente. Para aplicar la actualización se cerrará esta aplicación " +
-            "y se ejecutará el instalador en segundo plano sin ventanas. Al finalizar, el instalador puede volver a abrir el sistema. " +
+            "y se ejecutará el instalador en segundo plano sin ventanas. Al finalizar, el instalador volverá a abrir el sistema automáticamente. " +
             $"{Environment.NewLine}{Environment.NewLine}Guarde su trabajo antes de continuar.{Environment.NewLine}{Environment.NewLine}" +
             "¿Instalar ahora?",
             DialogTitle,
@@ -298,6 +298,7 @@ public static class AppUpdateService
             psi.ArgumentList.Add("/NORESTART");
             psi.ArgumentList.Add("/SUPPRESSMSGBOXES");
             psi.ArgumentList.Add("/CLOSEAPPLICATIONS");
+            psi.ArgumentList.Add("/RESTARTAPPLICATIONS");
             psi.ArgumentList.Add("/SP-");
             psi.ArgumentList.Add("/CURRENTUSER");
 

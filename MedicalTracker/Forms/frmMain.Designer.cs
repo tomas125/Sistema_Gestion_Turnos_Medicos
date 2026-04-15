@@ -23,6 +23,7 @@ partial class frmMain
     private Button btnExportar = null!;
     private StatusStrip statusStrip = null!;
     private ToolStripStatusLabel lblEstadoBarra = null!;
+    private ToolStripStatusLabel lblVersionBarra = null!;
     /// <summary>Encabezado en dos filas (filtros + botones) con altura correcta al redimensionar.</summary>
     private TableLayoutPanel tablaCabecera = null!;
     /// <summary>Contenedor de filtros con ajuste en varias líneas al achicar la ventana.</summary>
@@ -65,6 +66,7 @@ partial class frmMain
         btnExportar = new Button();
         statusStrip = new StatusStrip();
         lblEstadoBarra = new ToolStripStatusLabel();
+        lblVersionBarra = new ToolStripStatusLabel();
         tablaCabecera = new TableLayoutPanel();
         flowFiltros = new FlowLayoutPanel();
         picLogo = new PictureBox();
@@ -93,6 +95,7 @@ partial class frmMain
         dgvPacientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         dgvPacientes.CellToolTipTextNeeded += dgvPacientes_CellToolTipTextNeeded;
         dgvPacientes.DataBindingComplete += dgvPacientes_DataBindingComplete;
+        dgvPacientes.CellDoubleClick += dgvPacientes_CellDoubleClick;
         //
         // picLogo
         //
@@ -259,11 +262,13 @@ partial class frmMain
         //
         // statusStrip
         //
-        statusStrip.Items.AddRange(new ToolStripItem[] { lblEstadoBarra });
+        statusStrip.Items.AddRange(new ToolStripItem[] { lblEstadoBarra, lblVersionBarra });
         statusStrip.Dock = DockStyle.Bottom;
         lblEstadoBarra.Spring = true;
         lblEstadoBarra.TextAlign = ContentAlignment.MiddleLeft;
         lblEstadoBarra.Text = "Listo.";
+        lblVersionBarra.TextAlign = ContentAlignment.MiddleRight;
+        lblVersionBarra.Text = "Versión: -";
         //
         // tablaCabecera
         //

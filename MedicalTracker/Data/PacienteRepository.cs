@@ -19,7 +19,7 @@ public class PacienteRepository
         conexion.Open();
         using var cmd = conexion.CreateCommand();
         cmd.CommandText = """
-            SELECT Id, NombreApellido, Patologia, FechaIngreso, Observaciones
+            SELECT Id, NombreApellido, NumeroDni, FechaNacimiento, Patologia, FechaIngreso, Observaciones
             FROM Pacientes WHERE Id = @id;
             """;
         cmd.Parameters.AddWithValue("@id", id);
@@ -36,7 +36,7 @@ public class PacienteRepository
         conexion.Open();
         using var cmd = conexion.CreateCommand();
         cmd.CommandText = """
-            SELECT Id, NombreApellido, Patologia, FechaIngreso, Observaciones
+            SELECT Id, NombreApellido, NumeroDni, FechaNacimiento, Patologia, FechaIngreso, Observaciones
             FROM Pacientes
             ORDER BY NombreApellido COLLATE NOCASE;
             """;
@@ -72,11 +72,13 @@ public class PacienteRepository
                 using var cmd = conexion.CreateCommand();
                 cmd.Transaction = tx;
                 cmd.CommandText = """
-                    INSERT INTO Pacientes (NombreApellido, Patologia, FechaIngreso, Observaciones)
-                    VALUES (@NombreApellido, @Patologia, @FechaIngreso, @Observaciones)
+                    INSERT INTO Pacientes (NombreApellido, NumeroDni, FechaNacimiento, Patologia, FechaIngreso, Observaciones)
+                    VALUES (@NombreApellido, @NumeroDni, @FechaNacimiento, @Patologia, @FechaIngreso, @Observaciones)
                     RETURNING Id;
                     """;
                 cmd.Parameters.AddWithValue("@NombreApellido", paciente.NombreApellido);
+                cmd.Parameters.AddWithValue("@NumeroDni", (object?)paciente.NumeroDni ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@FechaNacimiento", (object?)paciente.FechaNacimiento ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Patologia", (object?)paciente.Patologia ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@FechaIngreso", (object?)paciente.FechaIngreso ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Observaciones", (object?)paciente.Observaciones ?? DBNull.Value);
@@ -90,6 +92,8 @@ public class PacienteRepository
                 cmd.CommandText = """
                     UPDATE Pacientes SET
                         NombreApellido = @NombreApellido,
+                        NumeroDni = @NumeroDni,
+                        FechaNacimiento = @FechaNacimiento,
                         Patologia = @Patologia,
                         FechaIngreso = @FechaIngreso,
                         Observaciones = @Observaciones
@@ -97,6 +101,8 @@ public class PacienteRepository
                     """;
                 cmd.Parameters.AddWithValue("@Id", paciente.Id);
                 cmd.Parameters.AddWithValue("@NombreApellido", paciente.NombreApellido);
+                cmd.Parameters.AddWithValue("@NumeroDni", (object?)paciente.NumeroDni ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@FechaNacimiento", (object?)paciente.FechaNacimiento ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Patologia", (object?)paciente.Patologia ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@FechaIngreso", (object?)paciente.FechaIngreso ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Observaciones", (object?)paciente.Observaciones ?? DBNull.Value);
@@ -301,9 +307,11 @@ public class PacienteRepository
         {
             Id = reader.GetInt32(0),
             NombreApellido = reader.GetString(1),
-            Patologia = reader.IsDBNull(2) ? null : reader.GetString(2),
-            FechaIngreso = reader.IsDBNull(3) ? null : reader.GetString(3),
-            Observaciones = reader.IsDBNull(4) ? null : reader.GetString(4)
+            NumeroDni = reader.IsDBNull(2) ? null : reader.GetString(2),
+            FechaNacimiento = reader.IsDBNull(3) ? null : reader.GetString(3),
+            Patologia = reader.IsDBNull(4) ? null : reader.GetString(4),
+            FechaIngreso = reader.IsDBNull(5) ? null : reader.GetString(5),
+            Observaciones = reader.IsDBNull(6) ? null : reader.GetString(6)
         };
     }
 }

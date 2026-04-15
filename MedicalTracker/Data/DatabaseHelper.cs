@@ -48,12 +48,26 @@ public static class DatabaseHelper
                 CREATE TABLE IF NOT EXISTS Pacientes (
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
                     NombreApellido TEXT NOT NULL,
+                    NumeroDni TEXT,
+                    FechaNacimiento TEXT,
                     Patologia TEXT,
                     FechaIngreso TEXT,
                     Observaciones TEXT
                 );
                 """;
             cmd.ExecuteNonQuery();
+        }
+
+        using (var cmd = conexion.CreateCommand())
+        {
+            cmd.CommandText = "ALTER TABLE Pacientes ADD COLUMN NumeroDni TEXT;";
+            try { cmd.ExecuteNonQuery(); } catch (SqliteException) { }
+        }
+
+        using (var cmd = conexion.CreateCommand())
+        {
+            cmd.CommandText = "ALTER TABLE Pacientes ADD COLUMN FechaNacimiento TEXT;";
+            try { cmd.ExecuteNonQuery(); } catch (SqliteException) { }
         }
 
         using (var cmd = conexion.CreateCommand())

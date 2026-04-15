@@ -59,6 +59,18 @@ public partial class frmPaciente : Form
                 }
 
                 txtNombre.Text = p.NombreApellido;
+                txtNumeroDni.Text = p.NumeroDni ?? "";
+                if (!string.IsNullOrWhiteSpace(p.FechaNacimiento) &&
+                    DateTime.TryParse(p.FechaNacimiento, CultureInfo.InvariantCulture, DateTimeStyles.None, out var fn))
+                {
+                    dtpFechaNacimiento.Checked = true;
+                    dtpFechaNacimiento.Value = fn.Date;
+                }
+                else
+                {
+                    dtpFechaNacimiento.Checked = false;
+                }
+
                 txtPatologia.Text = p.Patologia ?? "";
                 if (!string.IsNullOrWhiteSpace(p.FechaIngreso) &&
                     DateTime.TryParse(p.FechaIngreso, CultureInfo.InvariantCulture, DateTimeStyles.None, out var fi))
@@ -87,13 +99,12 @@ public partial class frmPaciente : Form
                     var sinRequerimiento = obs.StartsWith(EstudioCatalogo.MarcadorSinRequerimiento, StringComparison.Ordinal);
                     if (sinRequerimiento)
                     {
+                        fila.Requiere.Checked = false;
                         var resto = obs.Length > EstudioCatalogo.MarcadorSinRequerimiento.Length
                             ? obs[EstudioCatalogo.MarcadorSinRequerimiento.Length..].TrimStart()
                             : "";
-                        fila.Requiere.Checked = true;
                         fila.Estado.SelectedItem = EstudioCatalogo.EstadoCancelado;
                         fila.Observaciones.Text = resto;
-                        fila.Requiere.Checked = false;
                     }
                     else
                     {
@@ -127,6 +138,7 @@ public partial class frmPaciente : Form
                     fila.Observaciones.Clear();
                 }
 
+                dtpFechaNacimiento.Checked = false;
                 dtpFechaIngreso.Checked = true;
                 dtpFechaIngreso.Value = DateTime.Today;
             }
@@ -166,6 +178,8 @@ public partial class frmPaciente : Form
         }
 
         txtNombre.TextChanged += marcar;
+        txtNumeroDni.TextChanged += marcar;
+        dtpFechaNacimiento.ValueChanged += marcar;
         txtPatologia.TextChanged += marcar;
         dtpFechaIngreso.ValueChanged += marcar;
         txtObservacionesPaciente.TextChanged += marcar;
@@ -193,6 +207,10 @@ public partial class frmPaciente : Form
         {
             Id = _pacienteIdExistente ?? 0,
             NombreApellido = txtNombre.Text.Trim(),
+            NumeroDni = string.IsNullOrWhiteSpace(txtNumeroDni.Text) ? null : txtNumeroDni.Text.Trim(),
+            FechaNacimiento = dtpFechaNacimiento.Checked
+                ? dtpFechaNacimiento.Value.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
+                : null,
             Patologia = string.IsNullOrWhiteSpace(txtPatologia.Text) ? null : txtPatologia.Text.Trim(),
             FechaIngreso = dtpFechaIngreso.Checked
                 ? dtpFechaIngreso.Value.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
@@ -303,7 +321,7 @@ public partial class frmPaciente : Form
 
             Requiere = new CheckBox
             {
-                Text = "Requiere este estudio",
+                Text = "Si requiere estudio / No requiere estudio (Tildar si requiere)",
                 Location = new Point(12, 24),
                 AutoSize = true
             };
@@ -353,10 +371,17 @@ public partial class frmPaciente : Form
 
         private void ActualizarHabilitado()
         {
-            var on = Requiere.Checked;
-            FechaTurno.Enabled = on;
-            Estado.Enabled = on;
-            Observaciones.Enabled = on;
+            if (Requiere.Checked)
+            {
+                FechaTurno.Enabled = true;
+                Estado.Enabled = true;
+                Observaciones.Enabled = true;
+                return;
+            }
+
+            FechaTurno.Enabled = false;
+            Estado.Enabled = false;
+            Observaciones.Enabled = true;
         }
     }
 }

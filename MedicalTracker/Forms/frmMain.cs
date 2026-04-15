@@ -2,6 +2,7 @@ using MedicalTracker;
 using MedicalTracker.Data;
 using MedicalTracker.Models;
 using MedicalTracker.Services;
+using System.Reflection;
 
 namespace MedicalTracker.Forms;
 
@@ -18,6 +19,8 @@ public partial class frmMain : Form
     public frmMain()
     {
         InitializeComponent();
+        var v = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(1, 0, 0, 0);
+        lblVersionBarra.Text = $"Versión: {v.Major}.{v.Minor}.{Math.Max(v.Build, 0)}";
         var tips = new ToolTip();
         tips.SetToolTip(txtBuscar,
             "Busca en nombre, patología u observaciones del paciente (se actualiza al escribir). " +
@@ -197,6 +200,14 @@ public partial class frmMain : Form
             return;
         }
 
+        AbrirEditorPaciente(id.Value);
+    }
+
+    private void dgvPacientes_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
+    {
+        if (e.RowIndex < 0) return;
+        var id = ObtenerIdSeleccionado();
+        if (id == null) return;
         AbrirEditorPaciente(id.Value);
     }
 
