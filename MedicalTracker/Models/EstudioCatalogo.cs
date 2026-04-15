@@ -14,6 +14,7 @@ public static class EstudioCatalogo
         "Interconsulta con especialista",
         "Cardiología (Prequirúrgico)",
         "Anestesista (Prequirúrgico)",
+        "Estudio Diagnóstico por Imagen",
         "Laboratorio",
         "Turno Cirugía"
     };

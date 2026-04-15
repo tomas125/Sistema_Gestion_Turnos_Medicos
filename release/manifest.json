@@ -1,5 +1,5 @@
 {
-  "version": "1.0.6",
-  "downloadUrl": "https://github.com/tomas125/Sistema_Gestion_Turnos_Medicos/releases/latest/download/MedicalTracker_Setup_1.0.6.exe",
-  "releaseNotes": "Fix: al finalizar la actualización, el sistema vuelve a abrir automáticamente la aplicación instalada."
+  "version": "1.0.7",
+  "downloadUrl": "https://github.com/tomas125/Sistema_Gestion_Turnos_Medicos/releases/latest/download/MedicalTracker_Setup_1.0.7.exe",
+  "releaseNotes": "Prueba: se agrega el turno Estudio Diagnóstico por Imagen para seguimiento prequirúrgico."
 }

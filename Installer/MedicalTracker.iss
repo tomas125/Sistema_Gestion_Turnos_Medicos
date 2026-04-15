@@ -4,7 +4,7 @@
 #define MyAppName "Seguimiento turnos médicos"
 #define MyAppPublisher "CMR"
 #define MyAppExeName "MedicalTracker.exe"
-#define MyAppVersion "1.0.6"
+#define MyAppVersion "1.0.7"
 #define MyAppId "{{B4E8A1C2-9F3D-4E6B-8D71-2A5C9E0F1B34}"
 
 [Setup]
